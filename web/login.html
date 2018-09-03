@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <title>Login | Dario's Blog</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/public.css" />
+    <link rel="stylesheet" href="./css/login.css" />
+</head>
+<body>
+<div class="container">
+    <form action="/Blog/LoginServlet" method="post">
+        <h1>
+            <a href="/Blog/index.jsp">Dario's Blog</a>
+        </h1>
+        <label for="input" class="sr-only">用户名</label>
+        <input type="text" id="input" class="form-control" placeholder="用户名" name="username" required>
+        <label for="inputPassword" class="sr-only">密码</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="密码" name="password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">登录</button>
+        <a class="visitor" href="/Blog/index.jsp">访客登录</a>
+    </form>
+</div>
+<div id="footer">
+    <div>
+        <a href="https://github.com/darioshi" target="_blank"><img src="/Blog/img/github.png"width="20px" height="20px" class="img-circle">&nbsp;&nbsp;GitHub</a>
+        &nbsp;|
+        <a href="#">&nbsp;&nbsp;Dario's Blog</a>
+        <br/>
+        copyright © 2018
+    </div>
+
+    <div class="r_div">
+        <a href="#"><input  class="btn btn-default"   value="返回顶部"  style="width:50%;"/></a>
+    </div>
+
+</div><!-- footer -->
+</body>
+</html>
