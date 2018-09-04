@@ -18,8 +18,8 @@ public class VisitorFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) resp;
+        final HttpServletRequest request = (HttpServletRequest) req;
+        final HttpServletResponse response = (HttpServletResponse) resp;
 
         synchronized (this) {
             Cookie[] cookies = request.getCookies();

@@ -15,10 +15,10 @@ public class ArticleFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        String id = req.getParameter("id");
         boolean repeat = false;
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
+        String id = request.getParameter("id");
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies) {
             if(cookie.getName().equals("article_visit_" + id)) {
