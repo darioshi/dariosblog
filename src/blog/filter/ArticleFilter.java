@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "ArticleFilter", urlPatterns = {"/ArticleServlet"})
+//@WebFilter(filterName = "ArticleFilter", urlPatterns = {"/ArticleServlet"})
 public class ArticleFilter implements Filter {
     public void destroy() {
     }
@@ -20,20 +20,22 @@ public class ArticleFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) resp;
         String id = request.getParameter("id");
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals("article_visit_" + id)) {
-                repeat = true;
-                break;
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("article_visit_" + id)) {
+                    repeat = true;
+                    break;
+                }
             }
-        }
-        if(!repeat) {
-            int articleId = Integer.parseInt(id);
-            ArticleService articleService = ArticleService.getInstance();
-            articleService.addVisit(articleId);
-            Cookie cookie = new Cookie("article_visit_" + id,System.currentTimeMillis() + "");
-            cookie.setPath("/Blog");
-            cookie.setMaxAge(60*5);
-            response.addCookie(cookie);
+            if (!repeat) {
+                int articleId = Integer.parseInt(id);
+                ArticleService articleService = ArticleService.getInstance();
+                articleService.addVisit(articleId);
+                Cookie cookie = new Cookie("article_visit_" + id, System.currentTimeMillis() + "");
+                cookie.setPath("/Blog");
+                cookie.setMaxAge(60 * 5);
+                response.addCookie(cookie);
+            }
         }
         chain.doFilter(req, resp);
     }

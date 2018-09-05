@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Date;
 
 //统计网站访问量
-@WebFilter(filterName = "VisitorFilter", urlPatterns = {"/*"})
+//@WebFilter(filterName = "VisitorFilter", urlPatterns = {"/*"})
 public class VisitorFilter implements Filter {
     public void destroy() {
     }
@@ -24,28 +24,30 @@ public class VisitorFilter implements Filter {
         synchronized (this) {
             Cookie[] cookies = request.getCookies();
             boolean visited = false;
-            for (Cookie cookie : cookies) {
-                if(cookie.getName().equals("blog_visitor")) {
-                    visited = true;
-                    break;
-                }
-            }
-
-            if (!visited) {
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        VisitorDB.visit(request);
-
-                        // 发送新的cookie
-                        Cookie c = new Cookie("blog_visitor", DateUtils.getFormatDate(new Date()));
-                        // cookie生命周60分钟
-                        c.setMaxAge(60 * 60);
-                        c.setPath("/Blog");
-                        response.addCookie(c);
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("blog_visitor")) {
+                        visited = true;
+                        break;
                     }
-                });
-                t.start();
+                }
+
+                if (!visited) {
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            VisitorDB.visit(request);
+
+                            // 发送新的cookie
+                            Cookie c = new Cookie("blog_visitor", DateUtils.getFormatDate(new Date()));
+                            // cookie生命周60分钟
+                            c.setMaxAge(60 * 60);
+                            c.setPath("/Blog");
+                            response.addCookie(c);
+                        }
+                    });
+                    t.start();
+                }
             }
         }
         chain.doFilter(req, resp);
