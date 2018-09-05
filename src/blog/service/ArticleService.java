@@ -87,11 +87,31 @@ public class ArticleService {
         return articleDao.addArticle(article);
     }
 
+    public Article updateArticle(HttpServletRequest request, int sort_id, int article_id) {
+        Article article = null;
+        try {
+            request.setCharacterEncoding("utf-8");
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+        try {
+            article = Form2Bean.articleForm2Bean(request,sort_id);
+        } catch (FailException e) {
+            e.printStackTrace();
+        }
+        if(article == null) return article;
+        return articleDao.updateArticle(article_id,article);
+    }
+
     public int starArticle(int articleId) {
         return articleDao.starArticle(articleId);
     }
 
     public void addVisit(int articleId) {
         articleDao.addVisit(articleId);
+    }
+
+    public boolean delArticle(int articleId) {
+        return articleDao.delArticle(articleId);
     }
 }

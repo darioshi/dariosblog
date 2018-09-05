@@ -43,6 +43,7 @@ public class Form2Bean {
 		value.put("star", 0);
 		value.put("comment", 0);
 		value.put("create_time", df.format(date));
+        value.put("update_time", df.format(date));
         value.put("visit", 0);
 
 		Article bean = new Article();

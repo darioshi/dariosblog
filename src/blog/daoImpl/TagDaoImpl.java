@@ -218,4 +218,40 @@ public class TagDaoImpl implements TagDao {
         }
         return result;
     }
+
+    @Override
+    public ArticleTag getArticleTag(int articleId, int tagId) {
+        ArticleTag articleTag = null;
+        String sql = "select * from t_article_tag where article_id ? and tag_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,articleId);
+            ps.setInt(2,tagId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                articleTag = new ArticleTag();
+                articleTag.setId(rs.getInt("id"));
+                articleTag.setArticle_id(rs.getInt("article_id"));
+                articleTag.setTag_id(rs.getInt("tag_id"));
+            }
+            DBUtils.Close(ps,rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articleTag;
+    }
+
+    @Override
+    public void deleteArticleTag(int articleId) {
+        String sql = "delete from t_article_tag where article_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,articleId);
+            ps.executeUpdate();
+            DBUtils.Close(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

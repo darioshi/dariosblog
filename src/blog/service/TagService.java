@@ -5,6 +5,7 @@ import blog.dao.TagDao;
 import blog.daoImpl.ArticleDaoImpl;
 import blog.daoImpl.TagDaoImpl;
 import blog.model.Article;
+import blog.model.ArticleTag;
 import blog.model.Tag;
 import blog.utils.ArticleUtils;
 import blog.utils.StringUtils;
@@ -93,8 +94,12 @@ public class TagService {
     }
 
     public boolean addArticleTag(int articleId, List<Tag> tagList) {
+        //先删除文章所有标签关联
+        tagDao.deleteArticleTag(articleId);
         for(Tag tag : tagList) {
-            tagDao.addArticleTag(articleId,tag.getId());
+            ArticleTag articleTag = tagDao.getArticleTag(articleId,tag.getId());
+            if(articleTag == null)
+                tagDao.addArticleTag(articleId,tag.getId());
         }
         return true;
     }

@@ -150,8 +150,8 @@
                         <div class="s_foot" style="float: right">
                             <span>${article.visit}&nbsp;&nbsp;阅读</span>
                             <c:if test="${sessionScope.user!=null}">
-                                <span><a href="javascript:void(0);">编辑</a></span>
-                                <span><a href="javascript:void(0);">删除</a></span>
+                                <span><a href="/Blog/ArticleEditServlet?id=${article.id}">编辑</a></span>
+                                <span><a href="javascript:void(0);" onclick="delete_article(this,${article.id})">删除</a></span>
                             </c:if>
                         </div><br/><br/>
                     </div>
@@ -176,5 +176,35 @@
     </div>
 
 </div><!-- footer -->
+<script type="text/javascript">
+    function delete_article(ele,article_id) {
+        if (confirm("确定删除文章吗?")) {
+            var xmlhttp;
+            var url = "/Blog/AdminServlet?op=delete_article" + "&&article_id=" + article_id;
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var obj = JSON.parse(xmlhttp.response);
+                    if(obj.code == 1) {
+                        //remove 视图
+                        var recorder = ele.parentNode.parentNode.parentNode;
+                        var recorder_parent = recorder.parentNode;
+                        recorder_parent.removeChild(recorder);
+                    }else {
+                        alert("删除失败，请稍后再试");
+                    }
+                }
+            }
+            xmlhttp.open("POST", url, true);
+            xmlhttp.send();
+        }
+    }
+
+</script>
+
 </body>
 </html>

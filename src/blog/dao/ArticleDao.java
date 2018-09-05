@@ -90,5 +90,23 @@ public interface ArticleDao {
      */
     int desComment(int articleId);
 
+    /**
+     * 增加文章访问量
+     * @param articleId
+     */
     void addVisit(int articleId);
+
+    /**
+     * 删除文章
+     * @param articleId
+     * @return
+     */
+    boolean delArticle(int articleId);
+
+    /**
+     * 更新文章
+     * @param articleId
+     * @return
+     */
+    Article updateArticle(int articleId, Article article);
 }

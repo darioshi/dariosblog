@@ -272,6 +272,44 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
+    public boolean delArticle(int articleId) {
+        int result = 1;
+        String sql = "update t_article set status = 0 where id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,articleId);
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (result <= 0) return false;
+        return true;
+    }
+
+    @Override
+    public Article updateArticle(int articleId, Article a) {
+        Article article = null;
+        String sql = "update t_article set title = ?,sort_id = ?,content = ?,update_time = ? where id = ?";
+        PreparedStatement ps;
+        int result = 0;
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, a.getTitle());
+            ps.setInt(2, a.getSort_id());
+            ps.setString(3, a.getContent());
+            ps.setString(4, a.getUpdate_time());
+            ps.setInt(5, articleId);
+            result = ps.executeUpdate();
+            DBUtils.Close(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(result != 0)
+            article = this.getArticleById(articleId);
+        return article;
+    }
+
+    @Override
     public Article getPreArticle(int id) {
         Article article = null;
         String sql = "select * from t_article where id < ? order by id desc limit 1";

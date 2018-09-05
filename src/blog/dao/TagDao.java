@@ -64,4 +64,14 @@ public interface TagDao {
      * @return
      */
     int addArticleTag(int articleId, int tagId);
+
+    /**
+     * 获取文章关系
+     * @param articleId
+     * @param tagId
+     * @return
+     */
+    ArticleTag getArticleTag(int articleId, int tagId);
+
+    void deleteArticleTag(int articleId);
 }

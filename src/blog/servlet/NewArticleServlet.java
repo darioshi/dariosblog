@@ -22,7 +22,15 @@ public class NewArticleServlet extends HttpServlet {
         Sort sort = sortService.addSort(request);
         int sort_id = sort==null ? 0:sort.getId();
         ArticleService articleService = ArticleService.getInstance();
-        Article article = articleService.addArticle(request,sort_id);
+        String id = request.getParameter("id");
+        Article article = null;
+        if(id != null) { //更新
+            article = articleService.updateArticle(request, sort_id,Integer.parseInt(id));
+            request.setAttribute("msg", "更新成功！");
+        }else {
+            article = articleService.addArticle(request, sort_id);
+            request.setAttribute("msg", "新增成功！");
+        }
         if (article != null) {
             TagService tagService = TagService.getInstance();
             List<Tag> tagList = tagService.addTag(request);
