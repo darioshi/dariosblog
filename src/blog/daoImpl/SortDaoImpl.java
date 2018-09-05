@@ -171,4 +171,36 @@ public class SortDaoImpl implements SortDao {
         }
         return sort;
     }
+
+    @Override
+    public boolean updateSort(int sortId, String sortName) {
+        int result = 1;
+        String sql = "update t_sort set name = ? where id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,sortName);
+            ps.setInt(2,sortId);
+            result = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(result <= 0) return false;
+        return true;
+    }
+
+    @Override
+    public boolean deleteSort(int sortId) {
+        int result = 1;
+        String sql = "delete from t_sort where id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,sortId);
+            result = ps.executeUpdate();
+            DBUtils.Close(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(result <= 0 ) return false;
+        return true;
+    }
 }

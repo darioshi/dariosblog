@@ -109,4 +109,6 @@ public interface ArticleDao {
      * @return
      */
     Article updateArticle(int articleId, Article article);
+
+    void delArticleBySortId(int sortId);
 }

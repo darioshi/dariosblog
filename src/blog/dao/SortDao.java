@@ -1,6 +1,7 @@
 package blog.dao;
 
 import blog.model.Sort;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.List;
 import java.util.Map;
@@ -50,4 +51,19 @@ public interface SortDao {
      * @return
      */
     Sort getSortByName(String name);
+
+    /**
+     * 更新分类
+     * @param sortId
+     * @param sortName
+     * @return
+     */
+    boolean updateSort(int sortId, String sortName);
+
+    /**
+     * 删除分类
+     * @param sortId
+     * @return
+     */
+    boolean deleteSort(int sortId);
 }

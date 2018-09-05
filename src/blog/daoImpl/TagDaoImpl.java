@@ -254,4 +254,37 @@ public class TagDaoImpl implements TagDao {
         }
 
     }
+
+    @Override
+    public boolean deleteTag(int tagId) {
+        int res = 1;
+        String sql = "delete from t_tag where id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,tagId);
+            res = ps.executeUpdate();
+            DBUtils.Close(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(res <= 0) return false;
+        return true;
+    }
+
+    @Override
+    public boolean updateTag(int tagId, String tagName) {
+        int res = 1;
+        String sql = "update t_tag set name = ? where id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,tagName);
+            ps.setInt(2,tagId);
+            res = ps.executeUpdate();
+            DBUtils.Close(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(res <= 0) return false;
+        return true;
+    }
 }

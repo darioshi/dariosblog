@@ -114,4 +114,8 @@ public class ArticleService {
     public boolean delArticle(int articleId) {
         return articleDao.delArticle(articleId);
     }
+
+    public void delArticleBySortId(int sortId) {
+        articleDao.delArticleBySortId(sortId);
+    }
 }

@@ -87,4 +87,12 @@ public class SortService {
         if(sort == null) return sort;
         return sortDao.addSort(sort);
     }
+
+    public boolean updateSort(int sortId, String sortName) {
+        return sortDao.updateSort(sortId,sortName);
+    }
+
+    public boolean delSort(int sortId) {
+        return sortDao.deleteSort(sortId);
+    }
 }

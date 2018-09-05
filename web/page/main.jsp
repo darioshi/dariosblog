@@ -195,7 +195,7 @@
                         var recorder_parent = recorder.parentNode;
                         recorder_parent.removeChild(recorder);
                     }else {
-                        alert("删除失败，请稍后再试");
+                        alert("删除失败");
                     }
                 }
             }

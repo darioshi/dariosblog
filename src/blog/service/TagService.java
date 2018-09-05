@@ -104,4 +104,12 @@ public class TagService {
         return true;
     }
 
+    public boolean updateTag(int tagId,String tag_name) {
+        return tagDao.updateTag(tagId,tag_name);
+    }
+
+    public boolean delTag(int tagId) {
+        return tagDao.deleteTag(tagId);
+    }
+
 }

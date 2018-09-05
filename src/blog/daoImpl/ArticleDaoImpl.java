@@ -310,6 +310,19 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
+    public void delArticleBySortId(int sortId) {
+        String sql = "update t_article set status = 0 where sort_id = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,sortId);
+            ps.executeUpdate();
+            DBUtils.Close(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Article getPreArticle(int id) {
         Article article = null;
         String sql = "select * from t_article where id < ? order by id desc limit 1";

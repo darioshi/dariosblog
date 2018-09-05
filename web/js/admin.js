@@ -26,25 +26,6 @@ function sendURL(url){
 	xmlhttp.open("POST", url, true);
 	xmlhttp.send();		
 }
-/**
- * 在某个分类中找到指定的一个input
- * @param class_name
- * @param name
- * @returns
- */
-function findInputInClass(class_name , name){
-	//获取class_name类的 input 所有输入框数组
-	var inputs = document.getElementsByClassName(class_name);
-	var input;		
-	//找到值等于 name 的输入框
-	for(var i=0 ;i<inputs.length;i++){		
-		if(inputs[i].value == name){
-			input = inputs[i];
-			break;
-		}			
-	}
-	return input;	
-}
 
 /**
  * 删除文章
@@ -63,19 +44,29 @@ function delete_article(hod , article_id){
 /**
  * 删除sort
  * @param hod
- * @param sort
+ * @param sort_id
  */
-function delet_sort(hod,sort){
-	
-	var input = findInputInClass("sort",sort);
-	
-	//remove 视图
-	var recorder = input.parentNode;
-	var recorder_parent = recorder.parentNode;
-	recorder_parent.removeChild(recorder);
-	//后台删除
-	var url = "/Blog/AdminDataServlet?op=sort_delete"+"&&sort="+sort;
-	sendURL(url);	
+function delet_sort(hod,sort_id) {
+    if (confirm("该分类下的所有文章将删除，确定删除吗？")) {
+        //后台删除
+        var url = "/Blog/AdminServlet?op=sort_delete" + "&sort_id=" + sort_id;
+        var xmlhttp = getXHR();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var obj = JSON.parse(xmlhttp.response);
+                if (obj.code == 1) {
+                    //remove 视图
+                    var recorder = hod.parentNode.parentNode.parentNode;
+                    var recorder_parent = recorder.parentNode;
+                    recorder_parent.removeChild(recorder);
+                } else {
+                    alert("删除失败");
+                }
+            }
+        }
+        xmlhttp.open("POST", url, true);
+        xmlhttp.send();
+    }
 }
 
 /**
@@ -87,11 +78,11 @@ function delet_sort(hod,sort){
 
 var input; //保存input
 var temp;//保存input的上一个值
-function edit_sort(hod,sort){
+function edit_sort(hod,sort_id){
 	
 	if(hod.innerHTML == "编辑"){
 	
-		input = findInputInClass("sort",sort);		
+		input = document.getElementById("sort_"+sort_id);
 		//保存input的原始值
 		temp = input.value;					
 		//允许input可以进行编辑
@@ -105,12 +96,28 @@ function edit_sort(hod,sort){
 		hod.innerHTML="保存";			
 	}else{		
 		//点击了保存
-		hod.innerHTML="编辑";	
-		input.setAttribute("disabled","disabled");
-		
+		hod.innerHTML="编辑";
+        input = document.getElementById("sort_"+sort_id);
+		if(input.value == temp) {
+            input.setAttribute("disabled","disabled");
+            return;
+        }
 		//提交修改请求
-		var url = "/Blog/AdminDataServlet?op=sort_update"+"&&old_sort="+temp+"&&new_sort="+input.value ;		
-		sendURL(url);								
+		var url = "/Blog/AdminServlet?op=sort_update"+"&sort_id="+sort_id+"&sort_name="+input.value ;
+        var xmlhttp = getXHR();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var obj = JSON.parse(xmlhttp.response);
+                if(obj.code == 1) {
+                    //remove 视图
+                    input.setAttribute("disabled","disabled");
+                }else {
+                    alert("更新失败");
+                }
+            }
+        }
+        xmlhttp.open("POST", url, true);
+        xmlhttp.send();
 	}
 }
 
@@ -118,19 +125,29 @@ function edit_sort(hod,sort){
 /**
  * 删除tag
  * @param hod
- * @param tag
+ * @param tag_id
  */
-function delet_tag(hod,tag){
-
-	var input = findInputInClass("tags",tag);	
-	//remove 视图
-	var recorder = input.parentNode;
-	var recorder_parent = recorder.parentNode;
-	recorder_parent.removeChild(recorder);
-	
-	//后台删除
-	var url = "/Blog/AdminDataServlet?op=tag_delete"+"&&tag="+tag;
-	sendURL(url)	
+function delet_tag(hod,tag_id){
+    if (confirm("确定删除该标签吗？")) {
+        //后台删除
+        var url = "/Blog/AdminServlet?op=tag_delete" + "&tag_id=" + tag_id;
+        var xmlhttp = getXHR();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var obj = JSON.parse(xmlhttp.response);
+                if (obj.code == 1) {
+                    //remove 视图
+                    var recorder = hod.parentNode.parentNode.parentNode;
+                    var recorder_parent = recorder.parentNode;
+                    recorder_parent.removeChild(recorder);
+                } else {
+                    alert("删除失败");
+                }
+            }
+        }
+        xmlhttp.open("POST", url, true);
+        xmlhttp.send();
+    }
 }
 
 
@@ -143,11 +160,11 @@ function delet_tag(hod,tag){
 
 var input_t; //保存input
 var temp_t;//保存input的上一个值
-function edit_tag(hod,tag){
+function edit_tag(hod,tag_id){
 	
 	if(hod.innerHTML == "编辑"){
-	
-		input_t = findInputInClass("tags",tag);		
+
+        input_t = document.getElementById("tag_"+tag_id);
 		//保存input的原始值
 		temp_t = input_t.value;					
 		//允许input可以进行编辑
@@ -159,13 +176,29 @@ function edit_tag(hod,tag){
 		input_t.value=temp_t;					
 		//修改hod内容为保存		
 		hod.innerHTML="保存";			
-	}else{		
-		//点击了保存
-		hod.innerHTML="编辑";	
-		input_t.setAttribute("disabled","disabled");
-		
-		//提交修改请求
-		var url = "/Blog/AdminDataServlet?op=tag_update"+"&&old_tag="+temp_t+"&&new_tag="+input_t.value ;		
-		sendURL(url);								
+	}else{
+        //点击了保存
+        hod.innerHTML="编辑";
+        input_t = document.getElementById("tag_"+tag_id);
+        if(input_t.value == temp_t) {
+            input_t.setAttribute("disabled","disabled");
+            return;
+        }
+        //提交修改请求
+        var url = "/Blog/AdminServlet?op=tag_update"+"&tag_id="+tag_id+"&tag_name="+input_t.value ;
+        var xmlhttp = getXHR();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var obj = JSON.parse(xmlhttp.response);
+                if(obj.code == 1) {
+                    //remove 视图
+                    input_t.setAttribute("disabled","disabled");
+                }else {
+                    alert("更新失败");
+                }
+            }
+        }
+        xmlhttp.open("POST", url, true);
+        xmlhttp.send();
 	}
 }

@@ -74,4 +74,8 @@ public interface TagDao {
     ArticleTag getArticleTag(int articleId, int tagId);
 
     void deleteArticleTag(int articleId);
+
+    boolean deleteTag(int tagId);
+
+    boolean updateTag(int tagId, String tagName);
 }
