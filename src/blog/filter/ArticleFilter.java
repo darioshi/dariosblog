@@ -19,22 +19,24 @@ public class ArticleFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         String id = request.getParameter("id");
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("article_visit_" + id)) {
-                    repeat = true;
-                    break;
+        if(id != null && !id.equals("")) {
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("article_visit_" + id)) {
+                        repeat = true;
+                        break;
+                    }
                 }
-            }
-            if (!repeat) {
-                int articleId = Integer.parseInt(id);
-                ArticleService articleService = ArticleService.getInstance();
-                articleService.addVisit(articleId);
-                Cookie cookie = new Cookie("article_visit_" + id, System.currentTimeMillis() + "");
-                cookie.setPath("/Blog");
-                cookie.setMaxAge(60 * 5);
-                response.addCookie(cookie);
+                if (!repeat) {
+                    int articleId = Integer.parseInt(id);
+                    ArticleService articleService = ArticleService.getInstance();
+                    articleService.addVisit(articleId);
+                    Cookie cookie = new Cookie("article_visit_" + id, System.currentTimeMillis() + "");
+                    cookie.setPath("/Blog");
+                    cookie.setMaxAge(60 * 5);
+                    response.addCookie(cookie);
+                }
             }
         }
         chain.doFilter(req, resp);

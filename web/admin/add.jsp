@@ -29,7 +29,7 @@
     <div class="col-md-3" id="left_content">
 
         <div id="title">
-            <h2 style="margin-top: 20px;margin-bottom: 10px;"><a href="/Blog/LoginServlet">Dario's Blog</a></h2>
+            <h2 style="margin-top: 20px;margin-bottom: 10px;"><a href="/Blog">Dario's Blog</a></h2>
             <h5 class="text-muted">Get busy living or get busy dying</h5>
         </div>
 
@@ -45,7 +45,7 @@
                 <a href="#">${article_number}<br/>日志</a>
             </div>
             <div class="inline ">
-                <a href="/Blog/SortServlet?get=all"><span> ${sort_number} </span><br/>分类</a>
+                <a href="/Blog"><span> ${sort_number} </span><br/>分类</a>
             </div>
             <div class="inline " >
                 <a href="/Blog/TagsServlet?get=all"><span>${tags_number}</span><br/>标签</a>

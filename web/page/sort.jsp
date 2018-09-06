@@ -27,7 +27,7 @@
 		<div class="col-md-3" id="left_content">
 
 			<div id="title">
-				<h2><a href="/Blog/LoginServlet">Dario's Blog</a></h2>
+				<h2><a href="/Blog">Dario's Blog</a></h2>
 				<h5 class="text-muted">Get busy living or get busy dying</h5>
 			</div>
 
@@ -40,7 +40,7 @@
 
 			<div class="c_center">
 				<div class="inline ">
-					<a href="/Blog/ArticleServlet?get=all">${article_number}<br/>日志</a>
+					<a href="/Blog">${article_number}<br/>日志</a>
 				</div>
 				<div class="inline ">
 					<a href="/Blog/SortServlet?get=all"><span> ${sort_number} </span><br/>分类</a>
