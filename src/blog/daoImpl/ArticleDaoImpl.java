@@ -56,7 +56,7 @@ public class ArticleDaoImpl implements ArticleDao {
     public List<Article> getArticle() {
         List<Article> articleList = new ArrayList<>();
 
-        String sql = "select a.*,b.name as sort, c.name as author from t_article a left join t_sort b on a.sort_id = b.id left join t_user c on c.id = a.user_id where status = 1 order by a.create_time desc";
+        String sql = "select a.*,b.name as sort, c.name as author,a.sort_id from t_article a left join t_sort b on a.sort_id = b.id left join t_user c on c.id = a.user_id where status = 1 order by a.create_time desc";
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -69,6 +69,7 @@ public class ArticleDaoImpl implements ArticleDao {
                 article.setContent(rs.getString("content"));
                 article.setVisit(rs.getInt("visit"));
                 article.setCreate_time(rs.getString("create_time"));
+                article.setSort_id(rs.getInt("sort_id"));
                 articleList.add(article);
             }
             DBUtils.Close(stmt, rs);
@@ -81,7 +82,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public List<Article> getVisitRank() {
         List<Article> articleList = new ArrayList<>();
-        String sql = "select * from t_article order by visit desc limit 10";
+        String sql = "select * from t_article  where status = 1 order by visit desc limit 10";
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(sql);
@@ -103,7 +104,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public Article getArticleById(int id) {
         Article article = null;
-        String sql = "select * from t_article where id = ?";
+        String sql = "select * from t_article where id = ? and status = 1";
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(sql);
@@ -132,7 +133,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public List<Article> getArticleBySortId(int sortId) {
         List<Article> articleList = new ArrayList<>();
-        String sql = "select * from t_article where sort_id = ? order by create_time desc";
+        String sql = "select * from t_article where sort_id = ? and status = 1 order by create_time desc";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,sortId);
@@ -161,7 +162,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public List<Article> getArticleByTagId(int tagId) {
         List<Article> articleList = new ArrayList<>();
-        String sql = "select b.* from t_article_tag a left join t_article b on a.article_id = b.id where a.tag_id = ? order by b.create_time desc";
+        String sql = "select b.* from t_article_tag a left join t_article b on a.article_id = b.id where a.tag_id = ? and b.status = 1 order by b.create_time desc";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,tagId);
@@ -189,7 +190,7 @@ public class ArticleDaoImpl implements ArticleDao {
 
     public Article getLastArticle() {
         Article article = null;
-        String sql = "select * from t_article order by id desc limit 1";
+        String sql = "select * from t_article  where status = 1 order by id desc limit 1";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -325,7 +326,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public Article getPreArticle(int id) {
         Article article = null;
-        String sql = "select * from t_article where id < ? order by id desc limit 1";
+        String sql = "select * from t_article where id < ? and status = 1 order by id desc limit 1";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,id);
@@ -345,7 +346,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public Article getNextArticle(int id) {
         Article article = null;
-        String sql = "select * from t_article where id > ? order by id asc limit 1";
+        String sql = "select * from t_article where id > ? and status = 1 order by id asc limit 1";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,id);

@@ -145,7 +145,7 @@
                         <div class="s_foot" style="float: left">
                             <span>作者: ${article.author}&nbsp;&nbsp;·</span>
                             <span>${article.create_time}&nbsp;&nbsp;·</span>
-                            <span><a href="/Blog/SortServlet?get=${article.sort_name}">${article.sort_name}</a></span>
+                            <span><a href="/Blog/SortServlet?get=${article.sort_id}">${article.sort_name}</a></span>
                         </div>
                         <div class="s_foot" style="float: right">
                             <span>${article.visit}&nbsp;&nbsp;阅读</span>
