@@ -72,6 +72,7 @@ public class CommentDaoImpl implements CommentDao {
             ps.setString(4,comment.getContent());
             ps.setString(5,comment.getCreate_time());
             result = ps.executeUpdate();
+            DBUtils.Close(ps);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,6 +87,7 @@ public class CommentDaoImpl implements CommentDao {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,commentId);
             result = ps.executeUpdate();
+            DBUtils.Close(ps);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -99,6 +101,7 @@ public class CommentDaoImpl implements CommentDao {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,commentId);
             ps.executeUpdate();
+            DBUtils.Close(ps);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,6 +116,7 @@ public class CommentDaoImpl implements CommentDao {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,commentId);
             ps.executeUpdate();
+            DBUtils.Close(ps);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -140,6 +144,7 @@ public class CommentDaoImpl implements CommentDao {
                 comment.setArticle_id(rs.getInt("article_id"));
                 comment.setUpdate_time(rs.getString("update_time"));
             }
+            DBUtils.Close(ps,rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }

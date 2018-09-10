@@ -145,6 +145,7 @@ public class SortDaoImpl implements SortDao {
                 sort.setCreate_time(rs.getString("create_time"));
                 sort.setUpdate_time(rs.getString("update_time"));
             }
+            DBUtils.Close(ps,rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -166,6 +167,7 @@ public class SortDaoImpl implements SortDao {
                 sort.setCreate_time(rs.getString("create_time"));
                 sort.setUpdate_time(rs.getString("update_time"));
             }
+            DBUtils.Close(ps,rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -181,6 +183,7 @@ public class SortDaoImpl implements SortDao {
             ps.setString(1,sortName);
             ps.setInt(2,sortId);
             result = ps.executeUpdate();
+            DBUtils.Close(ps);
         } catch (SQLException e) {
             e.printStackTrace();
         }

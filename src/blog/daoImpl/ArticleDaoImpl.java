@@ -280,6 +280,7 @@ public class ArticleDaoImpl implements ArticleDao {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,articleId);
             result = ps.executeUpdate();
+            DBUtils.Close(ps);
         } catch (SQLException e) {
             e.printStackTrace();
         }
